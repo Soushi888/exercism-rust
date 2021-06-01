@@ -1,10 +1,8 @@
 pub fn is_leap_year(year: u64) -> bool {
-    let is_divisible_by_4 = year % 4 == 0;
-    let is_divisible_by_100 = year % 100 == 0;
-    let is_divisible_by_400 = year % 400 == 0;
-
-    if is_divisible_by_100 && !is_divisible_by_400 { return false; }
-    if is_divisible_by_4 { return true; }
-
-    false
+    match (year % 4 == 0, year % 100 == 0, year % 400 == 0) {
+        (true, true, true) => true,
+        (true, false, false) => true,
+        (true, true, false) => false,
+        _ => false
+    }
 }
