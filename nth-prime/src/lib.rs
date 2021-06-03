@@ -1,27 +1,31 @@
 fn is_prime(n: u32) -> bool {
-    if n <= 3 { let n = n > 1; }
-    if n % 2 == 0 || n % 3 == 0 { return false; };
+    if n <= 1 { return false; }
 
-    let mut i: u32 = 5;
-
-    while i.pow(2) <= n {
-        if n % i == 0 || n % (i + 2) == 0 { false; }
-        i += 6
+    for i in 2..n {
+        if n % i == 0 { return false; }
     }
 
-    true
+    return true;
 }
 
 pub fn nth(n: u32) -> u32 {
     let mut primes_vec: Vec<u32> = vec![2, 3];
 
     for i in 1..n {
-        let mut j: u32 = primes_vec[i as usize];
-        while is_prime(j) {
+        let mut j: u32 = primes_vec[i as usize] + 1;
+        while !is_prime(j) {
             j += 1;
         }
-        primes_vec.push(j)
+        j += 1;
+
+        primes_vec.push(j - 1)
     }
 
-    primes_vec[n as usize]
+    println!("{:?}", primes_vec);
+
+    let mut indexed_prime_vec = primes_vec[(n) as usize];
+    if n >= 2 { indexed_prime_vec = primes_vec[(n) as usize] };
+
+    println!("{}", indexed_prime_vec);
+    indexed_prime_vec
 }
