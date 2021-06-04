@@ -8,7 +8,16 @@ pub struct Clock {
 }
 
 impl Clock {
-    pub fn new(hours: i32, minutes: i32) -> Self {
+    pub fn new(mut hours: i32, mut minutes: i32) -> Self {
+        let hours_cycles_number = hours / 24;
+        let minutes_cycles_number = minutes / 60;
+
+        hours = hours - (24 * hours_cycles_number);
+        minutes = minutes - (60 * minutes_cycles_number);
+
+        hours += minutes_cycles_number;
+        if hours >= 24 { hours = 0 + minutes_cycles_number };
+
         Clock {
             hours,
             minutes,
@@ -25,42 +34,16 @@ impl Display for Clock {
         let mut hours: String = "".to_owned();
         let mut minutes: String = "".to_owned();
 
-        match self.hours {
-            24 => hours = String::from("00"),
-            mut h if h > 24 => {
-                let cycles_number = h / 24;
-                h = h - (24 * cycles_number);
-
-                if h < 10 { hours = format!("0{}", h) } else { hours = h.to_string() }
-            }
-            h => {
-                if h < 10 {
-                    hours = format!("0{}", h)
-                } else {
-                    hours = self.hours.to_string()
-                }
-            }
+        if self.hours < 10 {
+            hours = format!("0{}", self.hours)
+        } else {
+            hours = self.hours.to_string()
         }
 
-        match self.minutes {
-            mut m if m > 60 => {
-                let cycles_number = m / 60;
-
-                match i32::from_str(&*hours) {
-                    Ok(h) => hours = (h + 1).to_string(),
-                    Err(e) => ()
-                }
-                m = m - (60 * cycles_number);
-
-                if m < 10 { minutes = format!("0{}", self.minutes) }
-            }
-            m => {
-                if m < 10 {
-                    minutes = format!("0{}", m)
-                } else {
-                    minutes = self.minutes.to_string()
-                }
-            }
+        if self.minutes < 10 {
+            minutes = format!("0{}", self.minutes)
+        } else {
+            minutes = self.minutes.to_string()
         }
 
         write!(f, "{}:{}", hours, minutes)
