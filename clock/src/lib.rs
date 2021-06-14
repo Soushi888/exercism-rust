@@ -9,14 +9,25 @@ pub struct Clock {
 
 impl Clock {
     pub fn new(mut hours: i32, mut minutes: i32) -> Self {
-        let hours_cycles_number = hours / 24;
         let minutes_cycles_number = minutes / 60;
-
-        hours = hours - (24 * hours_cycles_number);
         minutes = minutes - (60 * minutes_cycles_number);
 
         hours += minutes_cycles_number;
-        if hours >= 24 { hours = 0 + minutes_cycles_number };
+        let mut hours_cycles_number = hours / 24;
+        hours = hours - (24 * hours_cycles_number);
+
+        if hours >= 24 {
+            hours = 0 + (minutes_cycles_number - (if hours_cycles_number > 0 {
+                24 + hours_cycles_number
+            } else {
+                24
+            }));
+        };
+
+        if hours < 0 {
+            hours += 24;
+        }
+        // println!("{}:{}", hours, minutes);
 
         Clock {
             hours,
