@@ -14,7 +14,7 @@ impl Clock {
         minutes = minutes - (60 * minutes_cycles_number);
 
         hours += minutes_cycles_number;
-        let mut hours_cycles_number = hours / 24;
+        let hours_cycles_number = hours / 24;
         hours = hours - (24 * hours_cycles_number);
 
         if hours >= 24 {
@@ -41,12 +41,29 @@ impl Clock {
     }
 
     pub fn add_minutes(&mut self, minutes: i32) -> Self {
+        println!("{} {} minutes", self, minutes);
+
         self.minutes += minutes;
 
         if self.minutes >= 60 {
             let minutes_cycles_number = self.minutes / 60;
             self.hours += minutes_cycles_number;
-            self.minutes -= 60;
+            self.minutes -= 60 * minutes_cycles_number;
+        }
+
+        let hours_cycles_number = self.hours / 24;
+        if self.hours >= 24 {
+            self.hours -= 24 * hours_cycles_number;
+        };
+
+
+        if self.minutes < 0 {
+            self.minutes += 60;
+            self.hours -= 1;
+        }
+
+        if self.hours < 0 {
+            self.hours += 24;
         }
 
         Clock {

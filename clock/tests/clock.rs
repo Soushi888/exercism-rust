@@ -161,63 +161,63 @@ fn test_add_to_next_hour() {
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 fn test_add_more_than_one_hour() {
     let clock = Clock::new(10, 0).add_minutes(61);
     assert_eq!(clock.to_string(), "11:01");
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 fn test_add_more_than_two_hours_with_carry() {
     let clock = Clock::new(0, 45).add_minutes(160);
     assert_eq!(clock.to_string(), "03:25");
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 fn test_add_across_midnight() {
     let clock = Clock::new(23, 59).add_minutes(2);
     assert_eq!(clock.to_string(), "00:01");
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 fn test_add_more_than_one_day() {
     let clock = Clock::new(5, 32).add_minutes(1500);
     assert_eq!(clock.to_string(), "06:32");
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 fn test_add_more_than_two_days() {
     let clock = Clock::new(1, 1).add_minutes(3500);
     assert_eq!(clock.to_string(), "11:21");
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 fn test_subtract_minutes() {
     let clock = Clock::new(10, 3).add_minutes(-3);
     assert_eq!(clock.to_string(), "10:00");
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 fn test_subtract_to_previous_hour() {
     let clock = Clock::new(10, 3).add_minutes(-30);
     assert_eq!(clock.to_string(), "09:33");
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 fn test_subtract_more_than_an_hour() {
     let clock = Clock::new(10, 3).add_minutes(-70);
     assert_eq!(clock.to_string(), "08:53");
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 fn test_subtract_across_midnight() {
     let clock = Clock::new(0, 3).add_minutes(-4);
     assert_eq!(clock.to_string(), "23:59");
