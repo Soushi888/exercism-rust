@@ -41,8 +41,6 @@ impl Clock {
     }
 
     pub fn add_minutes(&mut self, minutes: i32) -> Self {
-        println!("{} {} minutes", self, minutes);
-
         self.minutes += minutes;
 
         Clock::new(self.hours, self.minutes)
@@ -51,8 +49,8 @@ impl Clock {
 
 impl Display for Clock {
     fn fmt(&self, f: &mut Formatter<'_>) -> Result {
-        let mut hours: String = "".to_owned();
-        let mut minutes: String = "".to_owned();
+        let mut hours = String::from("");
+        let mut minutes = String::from("");
 
         if self.hours < 10 {
             hours = format!("0{}", self.hours)
