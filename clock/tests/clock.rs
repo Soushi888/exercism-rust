@@ -146,8 +146,8 @@ fn test_add_minutes() {
     assert_eq!(clock.to_string(), "10:03");
 }
 
-// #[test]
-#[ignore]
+#[test]
+// #[ignore]
 fn test_add_no_minutes() {
     let clock = Clock::new(6, 41).add_minutes(0);
     assert_eq!(clock.to_string(), "06:41");

@@ -1,6 +1,4 @@
 use std::fmt::{Display, Formatter, Result};
-use std::str::FromStr;
-use std::cmp::min;
 
 #[derive(Debug, PartialEq)]
 pub struct Clock {
@@ -49,8 +47,8 @@ impl Clock {
 
 impl Display for Clock {
     fn fmt(&self, f: &mut Formatter<'_>) -> Result {
-        let mut hours = String::from("");
-        let mut minutes = String::from("");
+        let hours: String;
+        let minutes: String;
 
         if self.hours < 10 {
             hours = format!("0{}", self.hours)
