@@ -1,5 +1,6 @@
 use std::fmt::{Display, Formatter, Result};
 use std::str::FromStr;
+use std::cmp::min;
 
 #[derive(Debug, PartialEq)]
 pub struct Clock {
@@ -24,10 +25,14 @@ impl Clock {
             }));
         };
 
+        if minutes < 0 {
+            minutes += 60;
+            hours -= 1;
+        }
+
         if hours < 0 {
             hours += 24;
         }
-        // println!("{}:{}", hours, minutes);
 
         Clock {
             hours,
@@ -35,8 +40,19 @@ impl Clock {
         }
     }
 
-    pub fn add_minutes(&self, minutes: i32) -> Self {
-        unimplemented!("Add {} minutes to existing Clock time", minutes);
+    pub fn add_minutes(&mut self, minutes: i32) -> Self {
+        self.minutes += minutes;
+
+        if self.minutes >= 60 {
+            let minutes_cycles_number = self.minutes / 60;
+            self.hours += minutes_cycles_number;
+            self.minutes -= 60;
+        }
+
+        Clock {
+            hours: self.hours,
+            minutes: self.minutes,
+        }
     }
 }
 
