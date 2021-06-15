@@ -45,31 +45,7 @@ impl Clock {
 
         self.minutes += minutes;
 
-        if self.minutes >= 60 {
-            let minutes_cycles_number = self.minutes / 60;
-            self.hours += minutes_cycles_number;
-            self.minutes -= 60 * minutes_cycles_number;
-        }
-
-        let hours_cycles_number = self.hours / 24;
-        if self.hours >= 24 {
-            self.hours -= 24 * hours_cycles_number;
-        };
-
-
-        if self.minutes < 0 {
-            self.minutes += 60;
-            self.hours -= 1;
-        }
-
-        if self.hours < 0 {
-            self.hours += 24;
-        }
-
-        Clock {
-            hours: self.hours,
-            minutes: self.minutes,
-        }
+        Clock::new(self.hours, self.minutes)
     }
 }
 
