@@ -1,25 +1,23 @@
 pub fn sum_of_multiples(limit: u32, factors: &[u32]) -> u32 {
     if limit <= 1 { return 0; }
-    println!("factors = {:?}, limit = {}", factors, limit);
-    println!();
+    if factors == [] { return 0; }
 
     let mut current_multiple: u32 = factors[0];
     let mut sum: u32 = 0;
-    let mut is_doubled: bool;
+    let mut is_counted: bool;
 
     while current_multiple < limit {
-        is_doubled = false;
+        is_counted = false;
 
         for i in 0..factors.len() {
-            if current_multiple % factors[i] == 0 && !is_doubled {
-                sum += current_multiple;
-                println!("i = {}, sum = {}", i, sum);
+            if factors[i] != 0 {
+                if current_multiple % factors[i] == 0 && !is_counted {
+                    sum += current_multiple;
 
-                is_doubled = true;
+                    is_counted = true;
+                }
             }
         }
-        println!("current multiple = {}, sum = {}", current_multiple, sum);
-        println!();
 
         current_multiple += 1;
     }
