@@ -1,3 +1,4 @@
+/// Return true if n: u32 is a prime number.
 fn is_prime(n: u32) -> bool {
     if n <= 1 { return false; }
 
@@ -8,6 +9,7 @@ fn is_prime(n: u32) -> bool {
     return true;
 }
 
+/// Return the prime number of the primes numbers suite corresponding to the n: u32 index.
 pub fn nth(n: u32) -> u32 {
     let mut primes_vec: Vec<u32> = vec![2, 3];
 
