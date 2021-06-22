@@ -20,7 +20,7 @@ fn test_no_matches() {
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 fn test_detect_simple_anagram() {
     let word = "ant";
 
@@ -32,7 +32,7 @@ fn test_detect_simple_anagram() {
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 fn test_does_not_confuse_different_duplicates() {
     let word = "galea";
 
