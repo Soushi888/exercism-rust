@@ -18,7 +18,7 @@ fn earth_age() {
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 fn mercury_age() {
     let duration = Duration::from(2_134_835_688);
     assert_in_delta(280.88, Mercury::years_during(&duration));
