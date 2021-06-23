@@ -11,9 +11,7 @@ impl From<u64> for Duration {
 }
 
 pub trait Planet {
-    fn years_during(d: &Duration) -> f64 {
-        f64::trunc((d.0 as f64 / 60.0 / 60.0 / 24.0 / 365.0) * 100.0) / 100.0
-    }
+    fn years_during(d: &Duration) -> f64;
 }
 
 pub struct Mercury;
@@ -32,18 +30,58 @@ pub struct Uranus;
 
 pub struct Neptune;
 
-impl Planet for Mercury {}
+impl Planet for Mercury {
+    fn years_during(d: &Duration) -> f64 {
+        let speed: f64 = 0.2408467;
+        f64::trunc((d.0 as f64 / 60.0 / 60.0 / 24.0 / 365.25 / speed) * 100.0) / 100.0
+    }
+}
 
-impl Planet for Venus {}
+impl Planet for Venus {
+    fn years_during(d: &Duration) -> f64 {
+        let speed: f64 = 0.61519726;
+        f64::trunc((d.0 as f64 / 60.0 / 60.0 / 24.0 / 365.25 / speed) * 100.0) / 100.0
+    }
+}
 
-impl Planet for Earth {}
+impl Planet for Earth {
+    fn years_during(d: &Duration) -> f64 {
+        let speed: f64 = 1.0;
+        f64::trunc((d.0 as f64 / 60.0 / 60.0 / 24.0 / 365.25 / speed) * 100.0) / 100.0
+    }
+}
 
-impl Planet for Mars {}
+impl Planet for Mars {
+    fn years_during(d: &Duration) -> f64 {
+        let speed: f64 = 1.8808158;
+        f64::trunc((d.0 as f64 / 60.0 / 60.0 / 24.0 / 365.25 / speed) * 100.0) / 100.0
+    }
+}
 
-impl Planet for Jupiter {}
+impl Planet for Jupiter {
+    fn years_during(d: &Duration) -> f64 {
+        let speed: f64 = 11.862615;
+        f64::trunc((d.0 as f64 / 60.0 / 60.0 / 24.0 / 365.25 / speed) * 100.0) / 100.0
+    }
+}
 
-impl Planet for Saturn {}
+impl Planet for Saturn {
+    fn years_during(d: &Duration) -> f64 {
+        let speed: f64 = 29.447498;
+        f64::trunc((d.0 as f64 / 60.0 / 60.0 / 24.0 / 365.25 / speed) * 100.0) / 100.0
+    }
+}
 
-impl Planet for Uranus {}
+impl Planet for Uranus {
+    fn years_during(d: &Duration) -> f64 {
+        let speed: f64 = 84.016846;
+        f64::trunc((d.0 as f64 / 60.0 / 60.0 / 24.0 / 365.25 / speed) * 100.0) / 100.0
+    }
+}
 
-impl Planet for Neptune {}
+impl Planet for Neptune {
+    fn years_during(d: &Duration) -> f64 {
+        let speed: f64 = 164.79132;
+        f64::trunc((d.0 as f64 / 60.0 / 60.0 / 24.0 / 365.25 / speed) * 100.0) / 100.0
+    }
+}
