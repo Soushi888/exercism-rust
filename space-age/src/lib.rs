@@ -1,5 +1,3 @@
-const SECONDS_PER_YEARS: f64 = 31557600.0;
-
 #[derive(Debug)]
 pub struct Duration(u64);
 
@@ -10,77 +8,32 @@ impl From<u64> for Duration {
 }
 
 pub trait Planet {
-    fn years_during(d: &Duration) -> f64;
-}
-
-pub struct Mercury;
-
-pub struct Venus;
-
-pub struct Earth;
-
-pub struct Mars;
-
-pub struct Jupiter;
-
-pub struct Saturn;
-
-pub struct Uranus;
-
-pub struct Neptune;
-
-impl Planet for Mercury {
+    const EARTH_YEAR_SECONDS: f64 = 31557600.0;
+    const EARTH_YEAR_RATIO: f64;
     fn years_during(d: &Duration) -> f64 {
-        let speed: f64 = 0.2408467;
-        d.0 as f64 / SECONDS_PER_YEARS / speed
+        d.0 as f64 / Self::EARTH_YEAR_SECONDS / Self::EARTH_YEAR_RATIO
     }
 }
 
-impl Planet for Venus {
-    fn years_during(d: &Duration) -> f64 {
-        let speed: f64 = 0.61519726;
-        d.0 as f64 / SECONDS_PER_YEARS / speed
+macro_rules! planet {
+    ($($t:ident => $e:expr),+) => {
+        $(
+            pub struct $t {}
+
+            impl Planet for $t {
+                const EARTH_YEAR_RATIO: f64 = $e;
+            }
+        )*
     }
 }
 
-impl Planet for Earth {
-    fn years_during(d: &Duration) -> f64 {
-        let speed: f64 = 1.0;
-        d.0 as f64 / SECONDS_PER_YEARS / speed
-    }
-}
-
-impl Planet for Mars {
-    fn years_during(d: &Duration) -> f64 {
-        let speed: f64 = 1.8808158;
-        d.0 as f64 / SECONDS_PER_YEARS / speed
-    }
-}
-
-impl Planet for Jupiter {
-    fn years_during(d: &Duration) -> f64 {
-        let speed: f64 = 11.862615;
-        d.0 as f64 / SECONDS_PER_YEARS / speed
-    }
-}
-
-impl Planet for Saturn {
-    fn years_during(d: &Duration) -> f64 {
-        let speed: f64 = 29.447498;
-        d.0 as f64 / SECONDS_PER_YEARS / speed
-    }
-}
-
-impl Planet for Uranus {
-    fn years_during(d: &Duration) -> f64 {
-        let speed: f64 = 84.016846;
-        d.0 as f64 / SECONDS_PER_YEARS / speed
-    }
-}
-
-impl Planet for Neptune {
-    fn years_during(d: &Duration) -> f64 {
-        let speed: f64 = 164.79132;
-        d.0 as f64 / SECONDS_PER_YEARS / speed
-    }
-}
+planet!(
+    Mercury => 0.2408467,
+    Venus => 0.61519726,
+    Earth => 1.0,
+    Mars => 1.8808158,
+    Jupiter => 11.862615,
+    Saturn => 29.447498,
+    Uranus => 84.016846,
+    Neptune => 164.7913
+);
