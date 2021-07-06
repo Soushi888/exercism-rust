@@ -9,28 +9,28 @@ fn test_stating_something() {
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 /// ending with whitespace
 fn test_ending_with_whitespace() {
     process_response_case("Okay if like my  spacebar  quite a bit?   ", "Sure.");
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 /// shouting numbers
 fn test_shouting_numbers() {
     process_response_case("1, 2, 3 GO!", "Whoa, chill out!");
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 /// other whitespace
 fn test_other_whitespace() {
     process_response_case("\r\r 	", "Fine. Be that way!");
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 /// shouting with special characters
 fn test_shouting_with_special_characters() {
     process_response_case(
@@ -40,42 +40,42 @@ fn test_shouting_with_special_characters() {
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 /// talking forcefully
 fn test_talking_forcefully() {
     process_response_case("Hi there!", "Whatever.");
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 /// prattling on
 fn test_prattling_on() {
     process_response_case("Wait! Hang on. Are you going to be OK?", "Sure.");
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 /// forceful question
 fn test_forceful_question() {
     process_response_case("WHAT'S GOING ON?", "Calm down, I know what I'm doing!");
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 /// shouting with no exclamation mark
 fn test_shouting_with_no_exclamation_mark() {
     process_response_case("I HATE THE DENTIST", "Whoa, chill out!");
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 /// asking gibberish
 fn test_asking_gibberish() {
     process_response_case("fffbbcbeab?", "Sure.");
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 /// question with no letters
 fn test_question_with_no_letters() {
     process_response_case("4?", "Sure.");
