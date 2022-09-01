@@ -11,15 +11,26 @@
 // which does more or less the same thing but automatically.
 #[derive(Debug)]
 pub struct Error;
+
 pub struct Scale(Vec<String>);
 
-fn get_notes(flats: bool) -> [&'static str; 12] {
-    if flats {
-        ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
-    } else {
-        ["F", "Gb", "G", "Ab", "A", "Bb", "B", "C", "Db", "D", "Eb", "E"]
+fn get_notes(sharps: bool, tonic: &str) -> Vec<String> {
+    let notes;
+    match sharps {
+        true => notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"],
+        false => notes = ["F", "Gb", "G", "Ab", "A", "Bb", "B", "C", "Db", "D", "Eb", "E"],
     }
+
+    let tonic = tonic.to_uppercase();
+    let tonic_index = notes.iter().position(|&x| x == tonic).unwrap();
+
+    let mut scale: Vec<String> = notes[tonic_index..].iter().map(|&x| x.to_string()).collect();
+    scale.extend_from_slice(notes[..tonic_index].iter().map(|&x| x.to_string()).collect::<Vec<String>>().as_slice());
+    scale.push(tonic.to_string());
+
+    scale
 }
+
 
 impl Scale {
     pub fn new(tonic: &str, intervals: &str) -> Result<Scale, Error> {
@@ -27,15 +38,12 @@ impl Scale {
     }
 
     pub fn chromatic(tonic: &str) -> Result<Scale, Error> {
-        let tonic = tonic.to_uppercase();
-        let tonic_index = get_notes(true).iter().position(|&x| x == tonic).ok_or(Error)?;
+        let scale = match tonic {
+            "F" | "Bb" | "Eb" | "Ab" | "Db" | "Gb" | "Cb" => Scale(get_notes(false, tonic)),
+            _ => Scale(get_notes(true, tonic)),
+        };
 
-        let mut scale: Vec<String> = get_notes(true)[tonic_index..].iter().map(|&x| x.to_string()).collect();
-        scale.extend_from_slice(get_notes(true)[..tonic_index].iter().map(|&x| x.to_string()).collect::<Vec<String>>().as_slice());
-        scale.push(tonic);
-
-
-        Ok(Scale(scale))
+        Ok(scale)
     }
 
     pub fn enumerate(&self) -> Vec<String> {
