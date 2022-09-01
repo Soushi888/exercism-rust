@@ -19,14 +19,17 @@ impl Scale {
     pub fn new(tonic: &str, intervals: &str) -> Result<Scale, Error> {
         let notes = Scale::chromatic(tonic)?.0;
         let mut scale: Vec<String> = vec![notes[0].clone()];
+        println!("{:?}", intervals);
 
         let mut position = 0;
         for interval in intervals.chars() {
-            if interval == 'm' {
-                position += 1;
-            } else if interval == 'M' {
-                position += 2;
+            match interval {
+                'm' => position += 1,
+                'M' => position += 2,
+                'A' => position += 3,
+                _ => {},
             }
+
             scale.push(notes[position].clone());
         }
 
