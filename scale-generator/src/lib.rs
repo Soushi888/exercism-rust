@@ -11,23 +11,34 @@
 // which does more or less the same thing but automatically.
 #[derive(Debug)]
 pub struct Error;
+pub struct Scale(Vec<String>);
 
-pub struct Scale;
+fn get_notes(flats: bool) -> [&'static str; 12] {
+    if flats {
+        ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+    } else {
+        ["F", "Gb", "G", "Ab", "A", "Bb", "B", "C", "Db", "D", "Eb", "E"]
+    }
+}
 
 impl Scale {
     pub fn new(tonic: &str, intervals: &str) -> Result<Scale, Error> {
-        unimplemented!(
-            "Construct a new scale with tonic {} and intervals {}",
-            tonic,
-            intervals
-        )
+        todo!()
     }
 
     pub fn chromatic(tonic: &str) -> Result<Scale, Error> {
-        unimplemented!("Construct a new chromatic scale with tonic {}", tonic)
+        let tonic = tonic.to_uppercase();
+        let tonic_index = get_notes(true).iter().position(|&x| x == tonic).ok_or(Error)?;
+
+        let mut scale: Vec<String> = get_notes(true)[tonic_index..].iter().map(|&x| x.to_string()).collect();
+        scale.extend_from_slice(get_notes(true)[..tonic_index].iter().map(|&x| x.to_string()).collect::<Vec<String>>().as_slice());
+        scale.push(tonic);
+
+
+        Ok(Scale(scale))
     }
 
     pub fn enumerate(&self) -> Vec<String> {
-        unimplemented!()
+        self.0.clone()
     }
 }
