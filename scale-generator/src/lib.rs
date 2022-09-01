@@ -10,16 +10,36 @@
 // errors. Another common idiom is to use a helper type such as failure::Error
 // which does more or less the same thing but automatically.
 #[derive(Debug)]
-pub struct Error;
+pub enum Error {
+    InvalidTonic,
+    InvalidIntervals,
+}
 
 #[derive(Clone, Debug)]
-pub struct Scale(Vec<String>);
+pub struct Scale {
+    notes: Vec<String>,
+}
 
 impl Scale {
     pub fn new(tonic: &str, intervals: &str) -> Result<Scale, Error> {
-        let notes = Scale::chromatic(tonic)?.0;
+        let is_locrian = intervals == "mMMmMMM";
+        let is_harmonic_minor = intervals == "MmMMmAm";
+
+        let notes: Vec<String>;
+        if is_locrian || is_harmonic_minor {
+            notes = get_chromatic_octave(false, tonic);
+        } else {
+            let uppercase_tonic = tonic.chars().next().unwrap().to_uppercase().collect::<String>() + &tonic[1..];
+            let tonic = uppercase_tonic.as_str();
+
+            notes = match tonic {
+                    "C" | "a" | "G" | "D" | "A" | "E" | "B" | "F#" | "e" | "b" | "f#" | "c#" | "g#" | "d#" => get_chromatic_octave(true, tonic),
+                    "F" | "Bb" | "Eb" | "Ab" | "Db" | "Gb" | "d" | "g" | "c" | "f" | "bb" | "eb" => get_chromatic_octave(false, tonic),
+                    _ => return Err(Error::InvalidTonic),
+            };
+        }
+
         let mut scale: Vec<String> = vec![notes[0].clone()];
-        println!("{:?}", intervals);
 
         let mut position = 0;
         for interval in intervals.chars() {
@@ -27,29 +47,21 @@ impl Scale {
                 'm' => position += 1,
                 'M' => position += 2,
                 'A' => position += 3,
-                _ => {},
+                _ => return Err(Error::InvalidIntervals),
             }
 
             scale.push(notes[position].clone());
         }
 
-        Ok(Scale(scale))
+        Ok(Scale { notes: scale })
     }
 
     pub fn chromatic(tonic: &str) -> Result<Scale, Error> {
-        let uppercase_tonic = tonic.chars().next().unwrap().to_uppercase().collect::<String>() + &tonic[1..];
-        let tonic = uppercase_tonic.as_str();
-
-        let scale = match tonic {
-            "F" | "Bb" | "Eb" | "Ab" | "Db" | "Gb" | "Cb" => Scale(get_chromatic_octave(false, tonic)),
-            _ => Scale(get_chromatic_octave(true, tonic)),
-        };
-
-        Ok(scale)
+        Scale::new(tonic, "mmmmmmmmmmmm")
     }
 
     pub fn enumerate(&self) -> Vec<String> {
-        self.0.clone()
+        self.notes.clone()
     }
 }
 
