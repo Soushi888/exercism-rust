@@ -29,9 +29,6 @@ impl Scale {
         if is_locrian || is_harmonic_minor {
             notes = get_chromatic_octave(false, tonic);
         } else {
-            let uppercase_tonic = tonic.chars().next().unwrap().to_uppercase().collect::<String>() + &tonic[1..];
-            let tonic = uppercase_tonic.as_str();
-
             notes = match tonic {
                     "C" | "a" | "G" | "D" | "A" | "E" | "B" | "F#" | "e" | "b" | "f#" | "c#" | "g#" | "d#" => get_chromatic_octave(true, tonic),
                     "F" | "Bb" | "Eb" | "Ab" | "Db" | "Gb" | "d" | "g" | "c" | "f" | "bb" | "eb" => get_chromatic_octave(false, tonic),
