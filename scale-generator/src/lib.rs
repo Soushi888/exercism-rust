@@ -34,8 +34,8 @@ impl Scale {
     }
 
     pub fn chromatic(tonic: &str) -> Result<Scale, Error> {
-        let uppercase_tonic = &tonic.chars().next().unwrap().to_uppercase().to_string();
-        let uppercase_tonic = uppercase_tonic.as_str();
+        let uppercase_tonic = tonic.chars().next().unwrap().to_uppercase().collect::<String>() + &tonic[1..];
+        let tonic = uppercase_tonic.as_str();
 
         let scale = match tonic {
             "F" | "Bb" | "Eb" | "Ab" | "Db" | "Gb" | "Cb" => Scale(get_chromatic_octave(false, tonic)),
@@ -56,7 +56,8 @@ fn get_chromatic_octave(sharps: bool, tonic: &str) -> Vec<String> {
         false => ["F", "Gb", "G", "Ab", "A", "Bb", "B", "C", "Db", "D", "Eb", "E"],
     };
 
-    let tonic = tonic.to_uppercase();
+    let uppercase_tonic = tonic.chars().next().unwrap().to_uppercase().collect::<String>() + &tonic[1..];
+    let tonic = uppercase_tonic.as_str();
     let tonic_index = notes.iter().position(|&x| x == tonic).unwrap();
 
     let mut scale: Vec<String> = notes[tonic_index..].iter().map(|&x| x.to_string()).collect();
