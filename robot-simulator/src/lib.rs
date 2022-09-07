@@ -1,3 +1,5 @@
+use Direction::*;
+
 #[derive(PartialEq, Eq, Debug, Copy, Clone)]
 pub enum Direction {
     North,
@@ -20,10 +22,10 @@ impl Robot {
     #[must_use]
     pub fn turn_right(&mut self) -> Self {
         match self.direction {
-            Direction::North => self.direction = Direction::East,
-            Direction::East => self.direction = Direction::South,
-            Direction::South => self.direction = Direction::West,
-            Direction::West => self.direction = Direction::North,
+            North => self.direction = East,
+            East => self.direction = South,
+            South => self.direction = West,
+            West => self.direction = North,
         };
 
        self.clone()
@@ -32,10 +34,10 @@ impl Robot {
     #[must_use]
     pub fn turn_left(&mut self) -> Self {
         match self.direction {
-            Direction::North => self.direction = Direction::West,
-            Direction::East => self.direction = Direction::North,
-            Direction::South => self.direction = Direction::East,
-            Direction::West => self.direction = Direction::South,
+            North => self.direction = West,
+            East => self.direction = North,
+            South => self.direction = East,
+            West => self.direction = South,
         }
 
         self.clone()
@@ -44,10 +46,10 @@ impl Robot {
     #[must_use]
     pub fn advance(&mut self) -> Self {
         match self.direction {
-            Direction::North => self.position = (self.position.0, self.position.1 + 1),
-            Direction::East => self.position = (self.position.0 + 1, self.position.1),
-            Direction::South => self.position = (self.position.0, self.position.1 - 1),
-            Direction::West => self.position = (self.position.0 - 1, self.position.1),
+            North => self.position = (self.position.0, self.position.1 + 1),
+            East => self.position = (self.position.0 + 1, self.position.1),
+            South => self.position = (self.position.0, self.position.1 - 1),
+            West => self.position = (self.position.0 - 1, self.position.1),
         };
 
         self.clone()
