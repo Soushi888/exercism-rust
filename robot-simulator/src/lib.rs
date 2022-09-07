@@ -1,6 +1,3 @@
-// The code below is a stub. Just enough to satisfy the compiler.
-// In order to pass the tests you can add-to or change any of this code.
-
 #[derive(PartialEq, Eq, Debug, Copy, Clone)]
 pub enum Direction {
     North,
@@ -9,7 +6,7 @@ pub enum Direction {
     West,
 }
 
-#[derive(PartialEq, Eq, Debug, Copy, Clone)]
+#[derive(Copy, Clone)]
 pub struct Robot {
     position: (i32, i32),
     direction: Direction,
@@ -29,7 +26,7 @@ impl Robot {
             Direction::West => self.direction = Direction::North,
         };
 
-        Self { ..*self }
+       self.clone()
     }
 
     #[must_use]
@@ -41,7 +38,7 @@ impl Robot {
             Direction::West => self.direction = Direction::South,
         }
 
-        Self { ..*self }
+        self.clone()
     }
 
     #[must_use]
@@ -53,7 +50,7 @@ impl Robot {
             Direction::West => self.position = (self.position.0 - 1, self.position.1),
         };
 
-        Self { ..*self }
+        self.clone()
     }
 
     #[must_use]
