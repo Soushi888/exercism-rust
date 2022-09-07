@@ -1,8 +1,9 @@
 use int_enum::{IntEnum, IntEnumError};
-use enum_iterator::{all, Sequence};
+use strum_macros::EnumIter;
+use strum::IntoEnumIterator;
 
 #[repr(u32)]
-#[derive(Clone, Copy, Debug, Eq, PartialEq, IntEnum, Sequence)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq, IntEnum, EnumIter)]
 pub enum ResistorColor {
     Black = 0,
     Brown = 1,
@@ -28,5 +29,5 @@ pub fn value_to_color_string(value: u32) -> String {
 }
 
 pub fn colors() -> Vec<ResistorColor> {
-    all::<ResistorColor>().collect()
+    ResistorColor::iter().collect()
 }
