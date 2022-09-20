@@ -27,13 +27,14 @@ impl BowlingGame {
             return Err(Error::GameComplete);
         }
 
-        let last_frame = self.frames.last();
+        let last_frame = self.frames.last_mut();
 
-        if let Some(frame) = last_frame {
-            match frame[..] {
+        if let Some(last_frame) = last_frame {
+            match last_frame[..] {
                 [10] => { // Strike
                     if self.current_frame.is_empty() || self.current_frame.len() == 1 {
-                        self.current_frame.push(pins * 2);
+                        last_frame.push(pins);
+                        self.current_frame.push(pins);
                         if self.current_frame.len() == 2 {
                             self.create_new_frame();
                         }
@@ -42,7 +43,8 @@ impl BowlingGame {
                 [first, second] => {
                     if first + second == 10 { // Spare
                         if self.current_frame.is_empty() {
-                            self.current_frame.push(pins * 2);
+                            last_frame.last_mut().unwrap().checked_add(pins).ok_or(Error::NotEnoughPinsLeft)?;
+                            self.current_frame.push(pins);
                         } else {
                             self.current_frame.push(pins);
                             self.create_new_frame();
@@ -58,7 +60,7 @@ impl BowlingGame {
             }
         } else { // first frame
             self.current_frame.push(pins);
-            if self.current_frame.len() == 2 {
+            if self.current_frame.len() == 2 || pins == 10 {
                 self.create_new_frame();
             }
         }
