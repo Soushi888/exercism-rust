@@ -1,3 +1,5 @@
+use std::ops::Add;
+
 #[derive(Debug, PartialEq, Eq)]
 pub enum Error {
     NotEnoughPinsLeft,
@@ -33,7 +35,7 @@ impl BowlingGame {
             match last_frame[..] {
                 [10] => { // Strike
                     if self.current_frame.is_empty() || self.current_frame.len() == 1 {
-                        last_frame.push(pins);
+                        if let Some(last) = last_frame.last_mut() { *last += pins; }
                         self.current_frame.push(pins);
                         if self.current_frame.len() == 2 {
                             self.create_new_frame();
@@ -43,7 +45,7 @@ impl BowlingGame {
                 [first, second] => {
                     if first + second == 10 { // Spare
                         if self.current_frame.is_empty() {
-                            last_frame.last_mut().unwrap().checked_add(pins).ok_or(Error::NotEnoughPinsLeft)?;
+                            if let Some(last) = last_frame.last_mut() { *last += pins; }
                             self.current_frame.push(pins);
                         } else {
                             self.current_frame.push(pins);
@@ -76,7 +78,6 @@ impl BowlingGame {
     fn create_new_frame(&mut self) {
         self.frames.push(self.current_frame.clone());
         self.current_frame.clear();
-        println!("{} frame: {:?}", self.frames.len(), self.frames.last());
     }
 
     fn calculate_score(&mut self) {
