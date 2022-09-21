@@ -27,14 +27,13 @@ impl BowlingGame {
 
         if let Some(last_frame) = last_frame {
             match last_frame[..] {
-                [10] | [10, _]=> { // Strike
+                [10] | [10, _] => { // Strike
                     println!("Strike");
                     if self.current_frame.is_empty() || self.current_frame.len() == 1 {
                         last_frame.push(pins);
                         self.current_frame.push(pins);
-                        if self.current_frame.len() == 2 || pins == 10 {
-                            self.create_new_frame();
-                        }
+                        if pins == 10 { last_frame.push(pins); }
+                        if self.current_frame.len() == 2 || pins == 10 { self.create_new_frame(); }
                     }
                 }
                 [first, second] => {
