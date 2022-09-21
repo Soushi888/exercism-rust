@@ -1,5 +1,3 @@
-use std::ops::Add;
-
 #[derive(Debug, PartialEq, Eq)]
 pub enum Error {
     NotEnoughPinsLeft,
@@ -25,19 +23,16 @@ impl BowlingGame {
             return Err(Error::NotEnoughPinsLeft);
         }
 
-        if self.frames.len() == 10 {
-            return Err(Error::GameComplete);
-        }
-
         let last_frame = self.frames.last_mut();
 
         if let Some(last_frame) = last_frame {
             match last_frame[..] {
-                [10] => { // Strike
+                [10] | [10, _]=> { // Strike
+                    println!("Strike");
                     if self.current_frame.is_empty() || self.current_frame.len() == 1 {
-                        if let Some(last) = last_frame.last_mut() { *last += pins; }
+                        last_frame.push(pins);
                         self.current_frame.push(pins);
-                        if self.current_frame.len() == 2 {
+                        if self.current_frame.len() == 2 || pins == 10 {
                             self.create_new_frame();
                         }
                     }
@@ -52,10 +47,9 @@ impl BowlingGame {
                             self.create_new_frame();
                         }
                     } else { // Open
+                        if self.frames.len() == 10 { return Err(Error::GameComplete); }
                         self.current_frame.push(pins);
-                        if self.current_frame.len() == 2 {
-                            self.create_new_frame();
-                        }
+                        if self.current_frame.len() == 2 { self.create_new_frame(); }
                     }
                 }
                 _ => {}
@@ -77,11 +71,12 @@ impl BowlingGame {
 
     fn create_new_frame(&mut self) {
         self.frames.push(self.current_frame.clone());
+        println!("{} ; {:?}", self.frames.len(), self.frames);
         self.current_frame.clear();
     }
 
     fn calculate_score(&mut self) {
-        if self.frames.len() == 10 {
+        if self.frames.len() >= 10 {
             let mut score = 0;
             for frame in self.frames.iter() {
                 score += frame.iter().sum::<u16>();
