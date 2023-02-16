@@ -1,3 +1,5 @@
+use regex::Regex;
+
 pub fn abbreviate(phrase: &str) -> String {
     let words: Vec<&str> = phrase.split_whitespace().collect();
 
@@ -16,14 +18,21 @@ pub fn abbreviate(phrase: &str) -> String {
 fn get_acronym_part_from_word(word: &str) -> String {
     let sub_words: Vec<&str> = word.split("-").collect();
     let mut acronym_part: Vec<String> = vec![];
+    println!("{:?}", sub_words);
     for word in sub_words {
-        acronym_part.push(get_capitalized_first_letter(word));
+        let capitalized_sub_words = split_by_case(word);
+
+        println!("{:?}", capitalized_sub_words);
+
+        for word in capitalized_sub_words {
+            acronym_part.push(get_capitalized_first_letter(word));
+        }
     }
 
     acronym_part.join("")
 }
 
-fn get_capitalized_first_letter(str: &str) -> String {
+fn get_capitalized_first_letter(str: String) -> String {
     let mut chars = str.chars();
     let first_char = match chars.next() {
         None => String::new(),
@@ -31,4 +40,14 @@ fn get_capitalized_first_letter(str: &str) -> String {
     };
 
     first_char
+}
+
+fn split_by_case(s: &str) -> Vec<String> {
+    let s = s.replace("'", "");
+    let re = Regex::new(r"([A-Z][a-z]+)|([a-z]+)|([A-Z]+)").unwrap();
+    let mut result = vec![];
+    for cap in re.captures_iter(&s) {
+        result.push(cap[0].to_string());
+    }
+    result
 }

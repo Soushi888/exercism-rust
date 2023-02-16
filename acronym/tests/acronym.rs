@@ -63,7 +63,7 @@ fn very_long_abbreviation() {
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 fn consecutive_delimiters() {
     assert_eq!(
         acronym::abbreviate("Something - I made up from thin air"),
@@ -72,13 +72,13 @@ fn consecutive_delimiters() {
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 fn apostrophes() {
     assert_eq!(acronym::abbreviate("Halley's Comet"), "HC");
 }
 
 #[test]
-#[ignore]
+// #[ignore]
 fn underscore_emphasis() {
     assert_eq!(acronym::abbreviate("The Road _Not_ Taken"), "TRNT");
 }
